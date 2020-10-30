@@ -64,4 +64,14 @@ public class NacionalidadeResource implements ResourceInterface<Nacionalidade> {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
+	@GetMapping("/ordenada")
+	public ResponseEntity<List<Nacionalidade>> getOrdered() {
+		return ResponseEntity.ok(service.findByOrdered());
+	}
+	
+	@GetMapping("/letra/{letra}")
+	public ResponseEntity<List<Nacionalidade>> getByLetra(@PathVariable("letra") String letra) {
+		return ResponseEntity.ok(service.findByLetra(letra));
+	}
+	
 }

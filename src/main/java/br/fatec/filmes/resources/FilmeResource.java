@@ -63,4 +63,24 @@ public class FilmeResource implements ResourceInterface<Filme> {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+	
+	@GetMapping(value = "/ordenado")
+	public ResponseEntity<List<Filme>> getOrdered() {
+		return ResponseEntity.ok(service.findFilmeOrdenadoPorAno());
+	}
+	
+	@GetMapping(value = "/ator/{id}")
+	public ResponseEntity<List<Filme>> getByAtor(@PathVariable("id") Long atorId) {
+		return ResponseEntity.ok(service.findByAtor(atorId));
+	}
+	
+	@GetMapping(value = "/ano/{ano}")
+	public ResponseEntity<List<Filme>> getByAno(@PathVariable("ano") Integer ano) {
+		return ResponseEntity.ok(service.findByAno(ano));
+	}
+	
+	@GetMapping(value = "/periodo/{from}/{to}")
+	public ResponseEntity<List<Filme>> getByPeriodo(@PathVariable("from") Integer from, @PathVariable("to") Integer to) {
+		return ResponseEntity.ok(service.findByPeriodo(from, to));
+	}
 }

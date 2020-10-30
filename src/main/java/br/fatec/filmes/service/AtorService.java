@@ -51,5 +51,21 @@ public class AtorService implements ServiceInterface<Ator> {
 		}
 		return false;
 	}
+	
+	public List<Ator> listAtorOrdenadoPorNome() {
+		return repo.findByOrderByNome();
+	}
+	
+	public List<Ator> findByFilme(Long filmeId) {
+		return repo.findByFilme(filmeId);
+	}
+	
+	public List<Ator> findByNacionalidade(Long nacionalidadeId) {
+		return repo.findByNacionalidadeId(nacionalidadeId);
+	}
+	
+	public Long countAtorByNacionalidade(Long nacionalidadeId) {
+		return repo.countAtorByNacionalidade(nacionalidadeId);
+	}
 
 }

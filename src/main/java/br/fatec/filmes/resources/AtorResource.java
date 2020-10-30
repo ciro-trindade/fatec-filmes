@@ -64,4 +64,24 @@ public class AtorResource implements ResourceInterface<Ator> {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
+	@GetMapping(value = "/ordenado")
+	public ResponseEntity<List<Ator>> getByOrdenadoPorNome() {
+		return ResponseEntity.ok(service.listAtorOrdenadoPorNome());
+	}
+	
+	@GetMapping(value = "/filme/{id}")
+	public ResponseEntity<List<Ator>> getByFilme(@PathVariable("id") Long filmeId) {
+		return ResponseEntity.ok(service.findByFilme(filmeId));
+	}
+	
+	@GetMapping(value = "/nacionalidade/{id}")
+	public ResponseEntity<List<Ator>> getByNacionalidade(@PathVariable("id") Long nacionalidadeId) {
+		return ResponseEntity.ok(service.findByNacionalidade(nacionalidadeId));
+	}
+
+	@GetMapping(value = "/count/{id}")
+	public ResponseEntity<Long> getCountByNacionalidade(@PathVariable("id") Long nacionalidadeId) {
+		return ResponseEntity.ok(service.countAtorByNacionalidade(nacionalidadeId));
+	}
+
 }

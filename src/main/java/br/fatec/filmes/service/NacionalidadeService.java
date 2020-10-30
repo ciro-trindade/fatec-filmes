@@ -51,4 +51,13 @@ public class NacionalidadeService implements ServiceInterface<Nacionalidade> {
 		return false;
 	}
 	
+	
+	public List<Nacionalidade> findByOrdered() {
+		return repo.findByOrderByPais();
+	}
+	
+	public List<Nacionalidade> findByLetra(String letra) {
+		return repo.findByPaisStartingWith(letra);
+	}
+	
 }
