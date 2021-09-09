@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +44,26 @@ public class AtorController implements ControllerInterface<Ator> {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
+	@GetMapping(value = "/page")
+	public ResponseEntity<Page<Ator>> get(Pageable pageable) {
+		return ResponseEntity.ok(service.findAll(pageable));
+	}
+	
+	@GetMapping(value = "/filme/{id}")
+	public ResponseEntity<Page<Ator>> getByFilme(Pageable pageable, @PathVariable("id") Long filmeId) {
+		return ResponseEntity.ok(service.findByFilme(pageable, filmeId));
+	}
+
+	@GetMapping(value = "/nacionalidade/{id}")
+	public ResponseEntity<Page<Ator>> getByNacionalidade(Pageable pageable, @PathVariable("id") Long nacionalidadeId) {
+		return ResponseEntity.ok(service.findByNacionalidade(pageable, nacionalidadeId));
+	}
+	
+	@GetMapping(value = "/count/{id}")
+	public ResponseEntity<Long> countByNacionalidade(@PathVariable("id") Long nacionalidadeId) {
+		return ResponseEntity.ok(service.countByNacionalidade(nacionalidadeId));
+	}
+	
 	@Override
 	@PostMapping
 	public ResponseEntity<Ator> post(@RequestBody Ator obj) {

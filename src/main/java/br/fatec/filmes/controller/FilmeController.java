@@ -3,9 +3,9 @@ package br.fatec.filmes.controller;
 import java.net.URI;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -44,9 +45,29 @@ public class FilmeController implements ControllerInterface<Filme> {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
+	@GetMapping("/page")
+	public ResponseEntity<Page<Filme>> get(Pageable pageable) {		
+		return ResponseEntity.ok(service.findAll(pageable));
+	}
+	
+	@GetMapping("/ator/{id}")
+	public ResponseEntity<Page<Filme>> getByAtor(Pageable pageable, @PathVariable("id") Long atorId) {		
+		return ResponseEntity.ok(service.findByAtor(pageable, atorId));
+	}
+
+	@GetMapping("/ano/{ano}")
+	public ResponseEntity<Page<Filme>> getByAno(Pageable pageable, @PathVariable("ano") Integer ano) {		
+		return ResponseEntity.ok(service.findByAno(pageable, ano));
+	}
+
+	@GetMapping("/count/{from}/{to}")
+	public ResponseEntity<Long> countByPeriodo(@PathVariable("from") Integer from, @PathVariable("to") Integer to) {		
+		return ResponseEntity.ok(service.countByPeriodo(from, to));
+	}
+	
 	@Override
 	@PostMapping
-	public ResponseEntity<Filme> post(@Valid @RequestBody Filme obj) {	
+	public ResponseEntity<Filme> post(@RequestBody Filme obj) {	
 		service.create(obj);
 		URI uri = ServletUriComponentsBuilder
 		        .fromCurrentRequest().path("/{id}")
@@ -56,7 +77,7 @@ public class FilmeController implements ControllerInterface<Filme> {
 
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@Valid @RequestBody Filme obj) {
+	public ResponseEntity<?> put(@RequestBody Filme obj) {
 		if (service.update(obj)) {
 			return ResponseEntity.ok(obj);
 		}

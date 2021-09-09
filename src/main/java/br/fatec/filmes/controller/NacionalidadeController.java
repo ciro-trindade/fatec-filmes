@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +44,16 @@ public class NacionalidadeController implements ControllerInterface<Nacionalidad
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
+	@GetMapping(value = "/page")
+	public ResponseEntity<Page<Nacionalidade>> getAll(Pageable pageable) {
+		return ResponseEntity.ok(service.findAll(pageable));
+	}
+
+	@GetMapping(value = "/page/{letra}")
+	public ResponseEntity<Page<Nacionalidade>> getByLetra(Pageable pageable, @PathVariable("letra") Character letra) {
+		return ResponseEntity.ok(service.findByPais(pageable, letra));
+	}
+	
 	@Override
 	@PostMapping
 	public ResponseEntity<Nacionalidade> post(@RequestBody Nacionalidade obj) {

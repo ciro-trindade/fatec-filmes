@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.fatec.filmes.model.Nacionalidade;
@@ -29,6 +31,15 @@ public class NacionalidadeService implements ServiceInterface<Nacionalidade> {
 	@Override
 	public List<Nacionalidade> findAll() {
 		return repo.findAll();
+	}
+	
+	
+	public Page<Nacionalidade> findAll(Pageable pageable) {
+		return repo.findAllOrderByPais(pageable);
+	}
+	
+	public Page<Nacionalidade> findByPais(Pageable pageable, Character letra) {
+		return repo.findByPaisStartingWith(pageable, letra);
 	}
 
 	@Override
